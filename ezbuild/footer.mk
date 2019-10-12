@@ -1,17 +1,17 @@
 ifeq ($(CSRC),)
-	CSRC 				:= $(call find_by_ext,$(SRCPATH),c)
+	CSRC 					:= $(call find_by_ext,$(SRCPATH),c)
 endif
 ifeq ($(COBJ),)
-	COBJ				:= $(call replace_ext,c,o,$(call str_replace,$(CSRC),$(SRCPATH),$(BINPATH)))
+	COBJ					:= $(call replace_ext,c,o,$(call str_replace,$(CSRC),$(SRCPATH),$(BINPATH)))
 endif
 ifeq ($(CXXSRC),)
-	CXXSRC				:= $(call find_by_ext,$(SRCPATH),cpp)
+	CXXSRC					:= $(call find_by_ext,$(SRCPATH),cpp)
 endif
 ifeq ($(CXXOBJ),)
-	CXXOBJ				:= $(call replace_ext,cpp,o,$(call str_replace,$(CXXSRC),$(SRCPATH),$(BINPATH)))
+	CXXOBJ					:= $(call replace_ext,cpp,o,$(call str_replace,$(CXXSRC),$(SRCPATH),$(BINPATH)))
 endif
 ifeq ($(TESTSRC),)
-	TESTSRC				:= $(call find_by_ext,$(TESTPATH),cpp)
+	TESTSRC					:= $(call find_by_ext,$(TESTPATH),cpp)
 endif
 ifeq ($(TESTOBJ),)
 	TESTOBJ					:= $(call replace_ext,cpp,o,$(call str_replace,$(TESTSRC),$(TESTPATH),$(BINPATH)$(TESTPATH)))
