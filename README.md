@@ -1,6 +1,10 @@
 # ezbuild
 Easy makefile for numb ones with C and optional C++ support
 
+USAGE : 
+
+Simply put your files into src / inc and type make in terminal.
+
 DONE  :
 
 [*] project type
