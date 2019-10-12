@@ -1,7 +1,7 @@
 # default variables
 include ezbuild/header.mk
 
-# here you can overide default values set inside header.m4
+# here you can overide default values set inside header.mk
 # ...
 # mimal setup: 
 NAME                  := libft.a      # outputname from project root that should contain extension if any
