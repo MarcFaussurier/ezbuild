@@ -14,33 +14,39 @@ ifeq ($(TESTSRC),)
 	TESTSRC				:= $(call find_by_ext,$(TESTPATH),cpp)
 endif
 ifeq ($(TESTOBJ),)
-	TESTOBJ				:= $(call replace_ext,cpp,o,$(call str_replace,$(TESTSRC),$(TESTPATH),$(BINPATH)$(TESTPATH)))
+	TESTOBJ					:= $(call replace_ext,cpp,o,$(call str_replace,$(TESTSRC),$(TESTPATH),$(BINPATH)$(TESTPATH)))
 endif
-INC					:= $(call add_prefix,-I,$(INC))
-CXXFLAGS				:= $(CXXFLAGS) $(INC) $(LIBPATH) $(LIBNAME)
-CFLAGS					:= $(CFLAGS) $(INC) $(LIBPATH) $(LIBNAME)
-TESTFLAGS				:= $(TESTFLAGS) $(INC) $(LIBPATH) $(LIBNAME) 
+ifneq ($(LIBPATH),)
+	LIBPATH					:= $(call add_prefix,-L,$(LIBPATH))
+endif
+ifneq ($(LIBNAME),)
+	LIBNAME					:= $(call add_prefix,-l,$(LIBNAME))
+endif
+INC							:= $(call add_prefix,-I,$(INC))
+CXXFLAGS					:= $(CXXFLAGS) $(INC) $(LIBPATH) $(LIBNAME)
+CFLAGS						:= $(CFLAGS) $(INC) $(LIBPATH) $(LIBNAME)
+TESTFLAGS					:= $(TESTFLAGS) $(INC) $(LIBPATH) $(LIBNAME) 
 ifeq ($(DEBUG),1)
-	CXXFLAGS 			+= -g -fsanitize=address -fno-omit-frame-pointer
-	CFLAGS				+= -g -fsanitize=address -fno-omit-frame-pointer
+	CXXFLAGS 				+= -g -fsanitize=address -fno-omit-frame-pointer
+	CFLAGS					+= -g -fsanitize=address -fno-omit-frame-pointer
 endif
  
-all:					$(NAME)
+all:						$(NAME)
 
 $(BINPATH)/%.o:				$(SRCPATH)/%.c
-	$(CC) $(CFLAGS) 				-c $< -o $@
+	$(CC) -M $(CFLAGS) 		-c $< -o $@
 
 $(BINPATH)/%.o:				$(SRCPATH)/%.cpp
 ifeq ($(CXXENABLED),1)
-	$(CXX) $(CXXFLAGS) 		-c $< -o $@
+	$(CXX) -M $(CXXFLAGS) 	-c $< -o $@
 endif
 
-$(BINPATH)$(TESTPATH)/%.o:		$(TESTPATH)/%.cpp
+$(BINPATH)$(TESTPATH)/%.o:	$(TESTPATH)/%.cpp
 ifeq ($(CXXENABLED),1)
-	$(CXX) $(CXXFLAGS) 		-c $< -o $@
+	$(CXX) -M $(CXXFLAGS) 	-c $< -o $@
 endif
 
-$(NAME):				$(COBJ) $(CXXOBJ)
+$(NAME):					$(COBJ) $(CXXOBJ)
 ifeq ($(TYPE),static)
 ifeq ($(CXXENABLED),0)
 	$(AR) $(NAME) $(COBJ)
@@ -70,7 +76,7 @@ watch-compile:
 
 watch-test:
 
-test:					$(COBJ) $(CXXOBJ) $(TESTOBJ)
+test:						$(COBJ) $(CXXOBJ) $(TESTOBJ)
 	$(CXX) -o $(BINPATH)$(TESTPATH)$(TEST) $(COBJ) $(CXXOBJ) $(TESTOBJ)
 	./$(BINPATH)$(TESTPATH)$(TEST)
 
