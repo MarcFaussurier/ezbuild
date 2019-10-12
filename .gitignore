@@ -1,0 +1,21 @@
+# OS
+.DS_Store
+
+# Private
+.env
+
+# Compiled
+*.out
+*.o
+*.a
+*.so
+*.out
+*.wasm
+
+# Webpack
+server/public/build/?*.*
+
+# IDE
+*.swp
+.idea
+.vscode
