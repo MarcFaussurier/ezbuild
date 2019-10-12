@@ -1,31 +1,31 @@
 ifeq ($(CSRC),)
-	CSRC 		:= $(call find_by_ext,$(SRCPATH),c)
+	CSRC 				:= $(call find_by_ext,$(SRCPATH),c)
 endif
 ifeq ($(COBJ),)
-	COBJ		:= $(call replace_ext,c,o,$(call str_replace,$(CSRC),$(SRCPATH),$(BINPATH)))
+	COBJ				:= $(call replace_ext,c,o,$(call str_replace,$(CSRC),$(SRCPATH),$(BINPATH)))
 endif
 ifeq ($(CXXSRC),)
-	CXXSRC		:= $(call find_by_ext,$(SRCPATH),cpp)
+	CXXSRC				:= $(call find_by_ext,$(SRCPATH),cpp)
 endif
 ifeq ($(CXXOBJ),)
-	CXXOBJ		:= $(call replace_ext,cpp,o,$(call str_replace,$(CXXSRC),$(SRCPATH),$(BINPATH)))
+	CXXOBJ				:= $(call replace_ext,cpp,o,$(call str_replace,$(CXXSRC),$(SRCPATH),$(BINPATH)))
 endif
 ifeq ($(TESTSRC),)
-	TESTSRC		:= $(call find_by_ext,$(TESTPATH),cpp)
+	TESTSRC				:= $(call find_by_ext,$(TESTPATH),cpp)
 endif
 ifeq ($(TESTOBJ),)
-	TESTOBJ		:= $(call replace_ext,cpp,o,$(call str_replace,$(TESTSRC),$(TESTPATH),$(BINPATH)$(TESTPATH)))
+	TESTOBJ				:= $(call replace_ext,cpp,o,$(call str_replace,$(TESTSRC),$(TESTPATH),$(BINPATH)$(TESTPATH)))
 endif
-INC			:= $(call add_prefix,-I,$(INC))
-CXXFLAGS	:= $(CXXFLAGS) $(INC) $(LIBPATH) $(LIBNAME)
-CFLAGS		:= $(CFLAGS) $(INC) $(LIBPATH) $(LIBNAME)
-TESTFLAGS	:= $(TESTFLAGS) $(INC) $(LIBPATH) $(LIBNAME) 
+INC					:= $(call add_prefix,-I,$(INC))
+CXXFLAGS				:= $(CXXFLAGS) $(INC) $(LIBPATH) $(LIBNAME)
+CFLAGS					:= $(CFLAGS) $(INC) $(LIBPATH) $(LIBNAME)
+TESTFLAGS				:= $(TESTFLAGS) $(INC) $(LIBPATH) $(LIBNAME) 
 ifeq ($(DEBUG),1)
-	CXXFLAGS 	+= -g -fsanitize=address -fno-omit-frame-pointer
-	CFLAGS		+= -g -fsanitize=address -fno-omit-frame-pointer
+	CXXFLAGS 			+= -g -fsanitize=address -fno-omit-frame-pointer
+	CFLAGS				+= -g -fsanitize=address -fno-omit-frame-pointer
 endif
  
-all:						$(NAME)
+all:					$(NAME)
 
 $(BINPATH)/%.o:				$(SRCPATH)/%.c
 	$(CC) $(CFLAGS) 				-c $< -o $@
@@ -35,12 +35,12 @@ ifeq ($(CXXENABLED),1)
 	$(CXX) $(CXXFLAGS) 		-c $< -o $@
 endif
 
-$(BINPATH)$(TESTPATH)/%.o:	$(TESTPATH)/%.cpp
+$(BINPATH)$(TESTPATH)/%.o:		$(TESTPATH)/%.cpp
 ifeq ($(CXXENABLED),1)
 	$(CXX) $(CXXFLAGS) 		-c $< -o $@
 endif
 
-$(NAME):					$(COBJ) $(CXXOBJ)
+$(NAME):				$(COBJ) $(CXXOBJ)
 ifeq ($(TYPE),static)
 ifeq ($(CXXENABLED),0)
 	$(AR) $(NAME) $(COBJ)
@@ -70,7 +70,7 @@ watch-compile:
 
 watch-test:
 
-test:						$(COBJ) $(CXXOBJ) $(TESTOBJ)
+test:					$(COBJ) $(CXXOBJ) $(TESTOBJ)
 	$(CXX) -o $(BINPATH)$(TESTPATH)$(TEST) $(COBJ) $(CXXOBJ) $(TESTOBJ)
 	./$(BINPATH)$(TESTPATH)$(TEST)
 
