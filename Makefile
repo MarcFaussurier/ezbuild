@@ -1,5 +1,5 @@
 # default variables
-include ezbuild/header.m4
+include ezbuild/header.mk
 
 # here you can overide default values set inside header.m4
 # ...
@@ -15,4 +15,4 @@ CXXENABLED            := 1            # 0 = off 1 = on
 #=> will link libfoobar.a from lib/foobar and libfoofoo.a lib/foofoo from to the executable 
 
 # default build rules
-include ezbuild/footer.m4
+include ezbuild/footer.mk

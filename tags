@@ -1,0 +1,59 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	//
+$(BINPATH)$(TESTPATH)/%.o	ezbuild/footer.mk	/^$(BINPATH)$(TESTPATH)\/%.o:		$(TESTPATH)\/%.cpp$/;"	t
+$(BINPATH)/%.o	ezbuild/footer.mk	/^$(BINPATH)\/%.o:				$(SRCPATH)\/%.c$/;"	t
+$(BINPATH)/%.o	ezbuild/footer.mk	/^$(BINPATH)\/%.o:				$(SRCPATH)\/%.cpp$/;"	t
+$(NAME)	ezbuild/footer.mk	/^$(NAME):				$(COBJ) $(CXXOBJ)$/;"	t
+AR	ezbuild/header.mk	/^AR			:= ar rcs$/;"	m
+BINPATH	ezbuild/header.mk	/^BINPATH		:= bin\/$/;"	m
+CC	ezbuild/header.mk	/^CC			:= gcc$/;"	m
+CFLAGS	ezbuild/footer.mk	/^CFLAGS					:= $(CFLAGS) $(INC) $(LIBPATH) $(LIBNAME)$/;"	m
+COBJ	ezbuild/footer.mk	/^	COBJ				:= $(call replace_ext,c,o,$(call str_replace,$(CSRC),$(SRCPATH),$(BINPATH)))$/;"	m
+CSRC	ezbuild/footer.mk	/^	CSRC 				:= $(call find_by_ext,$(SRCPATH),c)$/;"	m
+CXX	ezbuild/header.mk	/^CXX			:= g++$/;"	m
+CXXENABLED	Makefile	/^CXXENABLED            := 1            # 0 = off 1 = on$/;"	m
+CXXENABLED	ezbuild/header.mk	/^CXXENABLED	:= 0$/;"	m
+CXXFLAGS	ezbuild/footer.mk	/^CXXFLAGS				:= $(CXXFLAGS) $(INC) $(LIBPATH) $(LIBNAME)$/;"	m
+CXXFLAGS	ezbuild/header.mk	/^CXXFLAGS	:= -std=c++17 $(CFLAGS)$/;"	m
+CXXOBJ	ezbuild/footer.mk	/^	CXXOBJ				:= $(call replace_ext,cpp,o,$(call str_replace,$(CXXSRC),$(SRCPATH),$(BINPATH)))$/;"	m
+CXXSRC	ezbuild/footer.mk	/^	CXXSRC				:= $(call find_by_ext,$(SRCPATH),cpp)$/;"	m
+DEBUG	Makefile	/^DEBUG                 := 0            # 0 = off 1 = on$/;"	m
+INC	ezbuild/footer.mk	/^INC					:= $(call add_prefix,-I,$(INC))$/;"	m
+INC	ezbuild/header.mk	/^INC			:= inc\/$/;"	m
+KILLED_ID=	ezbuild/async.sh	/^KILLED_ID=();$/;"	f
+LIBNAME	ezbuild/header.mk	/^LIBNAME		:= #foobar$/;"	m
+LIBPATH	ezbuild/header.mk	/^LIBPATH		:= #.\/..\/..\/lib$/;"	m
+NAME	Makefile	/^NAME                  := libft.a      # outputname from project root that should contain extensi/;"	m
+RM	ezbuild/header.mk	/^RM			:= \/bin\/rm -f$/;"	m
+SHELL	ezbuild/header.mk	/^SHELL 		:= \/bin\/bash$/;"	m
+SRCPATH	ezbuild/header.mk	/^SRCPATH		:= src\/$/;"	m
+TEST	ezbuild/header.mk	/^TEST		:= test$/;"	m
+TESTFLAGS	ezbuild/footer.mk	/^TESTFLAGS				:= $(TESTFLAGS) $(INC) $(LIBPATH) $(LIBNAME) $/;"	m
+TESTFLAGS	ezbuild/header.mk	/^TESTFLAGS	:= $(CXXFLAGS)$/;"	m
+TESTOBJ	ezbuild/footer.mk	/^	TESTOBJ				:= $(call replace_ext,cpp,o,$(call str_replace,$(TESTSRC),$(TESTPATH),$(BINPATH)$(TE/;"	m
+TESTPATH	ezbuild/header.mk	/^TESTPATH	:= test\/$/;"	m
+TESTSRC	ezbuild/footer.mk	/^	TESTSRC				:= $(call find_by_ext,$(TESTPATH),cpp)$/;"	m
+TYPE	Makefile	/^TYPE                  := static       # executable shared or static$/;"	m
+all	ezbuild/footer.mk	/^all:					$(NAME)$/;"	t
+async	ezbuild/async.sh	/^function async() {$/;"	f
+await	ezbuild/async.sh	/^function await() {$/;"	f
+awaitAll	ezbuild/async.sh	/^function awaitAll() {$/;"	f
+clean	ezbuild/footer.mk	/^clean:$/;"	t
+daemon	ezbuild/watcher.sh	/^daemon() {$/;"	f
+ezbuild	README.md	/^# ezbuild$/;"	c
+fclean	ezbuild/footer.mk	/^fclean:$/;"	t
+find_by_ext	ezbuild/header.mk	/^define find_by_ext$/;"	m
+killAll	ezbuild/async.sh	/^function killAll() {$/;"	f
+killJob	ezbuild/async.sh	/^function killJob() {$/;"	f
+prefix_list	ezbuild/header.mk	/^define prefix_list$/;"	m
+re	ezbuild/footer.mk	/^re:$/;"	t
+replace_ext	ezbuild/header.mk	/^define replace_ext$/;"	m
+str_replace	ezbuild/header.mk	/^define str_replace$/;"	m
+test	ezbuild/footer.mk	/^test:					$(COBJ) $(CXXOBJ) $(TESTOBJ)$/;"	t
+watch-compile	ezbuild/footer.mk	/^watch-compile:$/;"	t
+watch-test	ezbuild/footer.mk	/^watch-test:$/;"	t
