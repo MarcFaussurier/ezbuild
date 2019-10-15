@@ -1,31 +1,31 @@
 ifeq ($(CSRC),)
-	CSRC 					:= $(call find_by_ext,$(SRCPATH),c)
+	CSRC 					:= $(call find_by_ext,$(SRCDIR),c)
 endif
 ifeq ($(COBJ),)
-	COBJ					:= $(call replace_ext,c,o,$(call str_replace,$(CSRC),$(SRCPATH),$(BINPATH)))
+	COBJ					:= $(call replace_ext,c,o,$(call str_replace,$(CSRC),$(SRCDIR),$(BINDIR)))
 endif
 ifeq ($(CXXSRC),)
-	CXXSRC					:= $(call find_by_ext,$(SRCPATH),cpp)
+	CXXSRC					:= $(call find_by_ext,$(SRCDIR),cpp)
 endif
 ifeq ($(CXXOBJ),)
-	CXXOBJ					:= $(call replace_ext,cpp,o,$(call str_replace,$(CXXSRC),$(SRCPATH),$(BINPATH)))
+	CXXOBJ					:= $(call replace_ext,cpp,o,$(call str_replace,$(CXXSRC),$(SRCDIR),$(BINDIR)))
 endif
 ifeq ($(TESTSRC),)
-	TESTSRC					:= $(call find_by_ext,$(TESTPATH),cpp)
+	TESTSRC					:= $(call find_by_ext,$(TESTDIR),cpp)
 endif
 ifeq ($(TESTOBJ),)
-	TESTOBJ					:= $(call replace_ext,cpp,o,$(call str_replace,$(TESTSRC),$(TESTPATH),$(BINPATH)$(TESTPATH)))
+	TESTOBJ					:= $(call replace_ext,cpp,o,$(call str_replace,$(TESTSRC),$(TESTDIR),$(BINDIR)$(TESTDIR)))
 endif
-ifneq ($(LIBPATH),)
-	LIBPATH					:= $(call add_prefix,$(LIBPATH),-L)
+ifneq ($(LIBDIR),)
+	LIBDIR					:= $(call add_prefix,$(LIBDIR),-L)
 endif
 ifneq ($(LIBNAME),)
 	LIBNAME					:= $(call add_prefix,$(LIBNAME),-l)
 endif
-INC							:= $(call add_prefix,$(INC),-I)
-CXXFLAGS					:= $(CXXFLAGS) $(INC) $(LIBPATH) $(LIBNAME)
-CFLAGS						:= $(CFLAGS) $(INC) $(LIBPATH) $(LIBNAME)
-TESTFLAGS					:= $(TESTFLAGS) $(INC) $(LIBPATH) $(LIBNAME)
+INCDIR						:= $(call add_prefix,$(INCDIR),-I)
+CXXFLAGS					:= $(CXXFLAGS) $(INCDIR) $(LIBDIR) $(LIBNAME)
+CFLAGS						:= $(CFLAGS) $(INCDIR) $(LIBDIR) $(LIBNAME)
+TESTFLAGS					:= $(TESTFLAGS) $(INCDIR) $(LIBDIR) $(LIBNAME)
 ifeq ($(DEBUG),1)
 	CXXFLAGS 				+= -g -fsanitize=address -fno-omit-frame-pointer
 	CFLAGS					+= -g -fsanitize=address -fno-omit-frame-pointer
@@ -33,17 +33,17 @@ endif
 
 all:						$(NAME)
 
-$(BINPATH)/%.o:				$(SRCPATH)/%.c
-	$(CC) -M $(CFLAGS) 		-c $< -o $@
+$(BINDIR)/%.o:				$(SRCDIR)/%.c
+	$(CC) $(CFLAGS) 		-c $< -o $@
 
-$(BINPATH)/%.o:				$(SRCPATH)/%.cpp
+$(BINDIR)/%.o:				$(SRCDIR)/%.cpp
 ifeq ($(CXXENABLED),1)
-	$(CXX) -M $(CXXFLAGS) 	-c $< -o $@
+	$(CXX) $(CXXFLAGS) 	-c $< -o $@
 endif
 
-$(BINPATH)$(TESTPATH)/%.o:	$(TESTPATH)/%.cpp
+$(BINDIR)$(TESTDIR)/%.o:	$(TESTDIR)/%.cpp
 ifeq ($(CXXENABLED),1)
-	$(CXX) -M $(CXXFLAGS) 	-c $< -o $@
+	$(CXX) $(CXXFLAGS) 	-c $< -o $@
 endif
 
 $(NAME):					$(COBJ) $(CXXOBJ)
@@ -77,14 +77,14 @@ watch-compile:
 watch-test:
 
 test:						$(COBJ) $(CXXOBJ) $(TESTOBJ)
-	$(CXX) -o $(BINPATH)$(TESTPATH)$(TEST) $(COBJ) $(CXXOBJ) $(TESTOBJ)
-	./$(BINPATH)$(TESTPATH)$(TEST)
+	$(CXX) -o $(BINDIR)$(TESTDIR)$(TEST) $(COBJ) $(CXXOBJ) $(TESTOBJ)
+	./$(BINDIR)$(TESTDIR)$(TEST)
 
 clean:
 	$(RM) $(COBJ) $(CXXOBJ) $(TESTOBJ)
 
 fclean:
-	$(RM) $(NAME) $(BINPATH)$(TESTPATH)$(TEST)
+	$(RM) $(NAME) $(BINDIR)/$(TESTDIR)/$(TEST)
 
 re:
 	fclean all test

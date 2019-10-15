@@ -1,24 +1,24 @@
 # string variables
-NAME						:= a.out		# compiled binary path (relative from project root)
-TYPE						:= executable	# executable, static or shared
-SRCPATH						:= src/			# folder path
-BINPATH						:= bin/			# fodler path
-TESTPATH					:= test/		# test path
-DEBUG						:= 1			# 0 or 1 switch
-CXXENABLED					:= 0			# 0 or 1 switch
-TEST						:= test			# test executable path (relative from project root/$BINPATH/$TESTPATH/)
+SRCDIR						:= src# 		folder path
+BINDIR						:= bin# 		fodler path
+TESTDIR						:= test# 		test path
+NAME						:= a.out# 		compiled binary path (relative from project root)
+TEST						:= test# 		test executable path (relative from project root/$BINPATH/$TESTPATH/)
+TYPE						:= executable# 	executable, static or shared
+DEBUG						:= 1# 			0 or 1 switch
+CXXENABLED					:= 0# 			0 or 1 switch
 # default toolchain
 SHELL 						:= /bin/bash
-RM							:= /bin/rm -f	
+RM							:= /bin/rm -f
 AR							:= ar rcs
 CC							:= gcc
 CXX							:= g++
 # default flags
-CFLAGS						:= -Werror -Wextra -Wall
+CFLAGS						:= -M -Werror -Wextra -Wall
 CXXFLAGS					:= -std=c++17 $(CFLAGS)
 TESTFLAGS					:= $(CXXFLAGS)
 # array variables
-INC							:= inc/
+INCDIR						:= inc/
 LIBPATH						:=# ./../../lib
 LIBNAME						:=# foobar
 # functions
