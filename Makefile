@@ -1,5 +1,5 @@
 # default variables
-include ezbuild/header.mk
+include header.mk
 
 # here you can overide default values set inside header.mk
 # mimal example: 
@@ -7,4 +7,4 @@ NAME                  := libft.a
 TYPE                  := static     
 
 # default build rules
-include ezbuild/footer.mk
+include footer.mk
