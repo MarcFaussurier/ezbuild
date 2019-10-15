@@ -15,7 +15,7 @@ CC							:= gcc
 CXX							:= g++
 # default flags
 CFLAGS						:= -MMD -Werror -Wextra -Wall
-CXXFLAGS					:= -std=c++17 $(CFLAGS)
+CXXFLAGS					:= -std=c++11 $(CFLAGS)
 TESTFLAGS					:= $(CXXFLAGS)
 # array variables
 INCDIR						:= inc/
@@ -34,5 +34,3 @@ endef
 define replace_ext
 	$(patsubst %.$(1),%.$(2),$(3))
 endef
-
-

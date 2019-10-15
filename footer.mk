@@ -3,9 +3,11 @@ ifeq ($(CSRC),)
 endif
 ifeq ($(COBJ),)
 	COBJ					:= $(call replace_ext,c,o,$(call str_replace,$(CSRC),$(SRCDIR),$(BINDIR)))
+	CDF						:= $(call replace_ext,o,d,$(COBJ))
 endif
 ifeq ($(CXXSRC),)
 	CXXSRC					:= $(call find_by_ext,$(SRCDIR),cpp)
+	CXXDF					:= $(call replace_ext,o,d,$(COBJ))
 endif
 ifeq ($(CXXOBJ),)
 	CXXOBJ					:= $(call replace_ext,cpp,o,$(call str_replace,$(CXXSRC),$(SRCDIR),$(BINDIR)))
@@ -14,7 +16,8 @@ ifeq ($(TESTSRC),)
 	TESTSRC					:= $(call find_by_ext,$(TESTDIR),cpp)
 endif
 ifeq ($(TESTOBJ),)
-	TESTOBJ					:= $(call replace_ext,cpp,o,$(call str_replace,$(TESTSRC),$(TESTDIR),$(BINDIR)$(TESTDIR)))
+	TESTOBJ					:= $(call replace_ext,cpp,o,$(call str_replace,$(TESTSRC),$(TESTDIR),$(BINDIR)/$(TESTDIR)))
+	TESTDF					:= $(call replace_ext,o,d,$(TESTOBJ))
 endif
 ifneq ($(LIBDIR),)
 	LIBDIR					:= $(call add_prefix,$(LIBDIR),-L)
@@ -41,10 +44,8 @@ ifeq ($(CXXENABLED),1)
 	$(CXX) $(CXXFLAGS) 	-c $< -o $@
 endif
 
-$(BINDIR)$(TESTDIR)/%.o:	$(TESTDIR)/%.cpp
-ifeq ($(CXXENABLED),1)
+$(BINDIR)/$(TESTDIR)/%.o:	$(TESTDIR)/%.cpp
 	$(CXX) $(CXXFLAGS) 	-c $< -o $@
-endif
 
 $(NAME):					$(COBJ) $(CXXOBJ)
 ifeq ($(TYPE),static)
@@ -72,16 +73,21 @@ ifeq ($(CXXENABLED),1)
 endif
 endif
 
+mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+current_dir := $(patsubst %/,%,$(dir $(mkfile_path)))
+
 watch-compile:
+	source $(current_dir)/watcher.sh "make" "$(SRCDIR)" "$(TESTDIR)"
 
 watch-test:
+	source $(current_dir)/watcher.sh "make test" "$(SRCDIR)" "$(TESTDIR)"
 
 test:						$(COBJ) $(CXXOBJ) $(TESTOBJ)
-	$(CXX) -o $(BINDIR)$(TESTDIR)$(TEST) $(COBJ) $(CXXOBJ) $(TESTOBJ)
-	./$(BINDIR)$(TESTDIR)$(TEST)
+	$(CXX) -o $(BINDIR)/$(TESTDIR)/$(TEST) $(COBJ) $(CXXOBJ) $(TESTOBJ) $(CXXOBJ)
+	./$(BINDIR)/$(TESTDIR)/$(TEST)
 
 clean:
-	$(RM) $(COBJ) $(CXXOBJ) $(TESTOBJ)
+	$(RM) $(COBJ) $(CXXOBJ) $(TESTOBJ) $(CDF) $(CXXDF) $(TESTDF)
 
 fclean:
 	$(RM) $(NAME) $(BINDIR)/$(TESTDIR)/$(TEST)
