@@ -17,20 +17,20 @@ ifeq ($(TESTOBJ),)
 	TESTOBJ					:= $(call replace_ext,cpp,o,$(call str_replace,$(TESTSRC),$(TESTPATH),$(BINPATH)$(TESTPATH)))
 endif
 ifneq ($(LIBPATH),)
-	LIBPATH					:= $(call add_prefix,-L,$(LIBPATH))
+	LIBPATH					:= $(call add_prefix,$(LIBPATH),-L)
 endif
 ifneq ($(LIBNAME),)
-	LIBNAME					:= $(call add_prefix,-l,$(LIBNAME))
+	LIBNAME					:= $(call add_prefix,$(LIBNAME),-l)
 endif
-INC							:= $(call add_prefix,-I,$(INC))
+INC							:= $(call add_prefix,$(INC),-I)
 CXXFLAGS					:= $(CXXFLAGS) $(INC) $(LIBPATH) $(LIBNAME)
 CFLAGS						:= $(CFLAGS) $(INC) $(LIBPATH) $(LIBNAME)
-TESTFLAGS					:= $(TESTFLAGS) $(INC) $(LIBPATH) $(LIBNAME) 
+TESTFLAGS					:= $(TESTFLAGS) $(INC) $(LIBPATH) $(LIBNAME)
 ifeq ($(DEBUG),1)
 	CXXFLAGS 				+= -g -fsanitize=address -fno-omit-frame-pointer
 	CFLAGS					+= -g -fsanitize=address -fno-omit-frame-pointer
 endif
- 
+
 all:						$(NAME)
 
 $(BINPATH)/%.o:				$(SRCPATH)/%.c
@@ -89,5 +89,5 @@ fclean:
 re:
 	fclean all test
 
-.PHONY: 
+.PHONY:
 	all fclean clean re test
