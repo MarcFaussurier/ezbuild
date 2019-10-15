@@ -14,7 +14,7 @@ AR							:= ar rcs
 CC							:= gcc
 CXX							:= g++
 # default flags
-CFLAGS						:= -Werror -Wextra -Wall
+CFLAGS						:= -MMD -Werror -Wextra -Wall
 CXXFLAGS					:= -std=c++17 $(CFLAGS)
 TESTFLAGS					:= $(CXXFLAGS)
 # array variables
