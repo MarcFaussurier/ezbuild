@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
-function watchFolders()
+function asyncWatchFolders()
 {
-    chsum1=""
+
+
+   chsum1=""
     while [[ true ]]
     do
         if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -10,9 +12,11 @@ function watchFolders()
             chsum2=`find $2 -type f -exec md5sum {} \;`
         fi;
         if [[ $chsum1 != $chsum2 ]] ; then
-            $1
+            killJob ${job1}
+            async $1
+            job1=${RETURN}
             chsum1=$chsum2
         fi
         sleep 2
     done
-}
+};
