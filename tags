@@ -1,0 +1,78 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	//
+$(BINDIR)/$(TESTDIR)/%.o	Makefile	/^$(BINDIR)\/$(TESTDIR)\/%.o:	$(TESTDIR)\/%.cpp$/;"	t
+$(BINDIR)/%.o	Makefile	/^$(BINDIR)\/%.o:				$(SRCDIR)\/%.c$/;"	t
+$(BINDIR)/%.o	Makefile	/^$(BINDIR)\/%.o:				$(SRCDIR)\/%.cpp$/;"	t
+$(NAME)	Makefile	/^$(NAME):                                        $(COBJ) $(CXXOBJ)$/;"	t
+AR	Makefile	/^AR			?= ar$/;"	m
+ARFLAGS	Makefile	/^ARFLAGS		?= -rcs$/;"	m
+BINDIR	Makefile	/^BINDIR      ?= bin$/;"	m
+CC	Makefile	/^CC          ?= gcc$/;"	m
+CDF	Makefile	/^CDF         ?= $(patsubst %.o,%.d,$(COBJ))$/;"	m
+CFLAGS	Makefile	/^CFLAGS      := $(CFLAGS)	$(INCDIR) $(LIBDIR) $(LIBNAME)$/;"	m
+COBJ	Makefile	/^COBJ        ?= $(patsubst %.c,%.o,$(subst $(SRCDIR),$(BINDIR),$(CSRC)))$/;"	m
+CSRC	Makefile	/^CSRC			:=.\/src\/ft_string.c$/;"	m
+CSRC	Makefile	/^CSRC        ?=$/;"	m
+CURRENT_DIR	Makefile	/^CURRENT_DIR ?= $(patsubst %\/,%,$(dir $(MKFILE_PATH)))$/;"	m
+CXX	Makefile	/^CXX         ?= g++$/;"	m
+CXXDF	Makefile	/^CXXDF       ?= $(patsubst %.o,%.d,$(CXXOBJ))$/;"	m
+CXXENABLED	Makefile	/^CXXENABLED  ?= 0$/;"	m
+CXXFLAGS	Makefile	/^CXXFLAGS    := $(CXXFLAGS)	$(INCDIR) $(LIBDIR) $(LIBNAME)$/;"	m
+CXXFLAGS	Makefile	/^CXXFLAGS    ?= -std=c++11 $(CFLAGS)$/;"	m
+CXXOBJ	Makefile	/^CXXOBJ      ?= $(patsubst %.cpp,%.o,$(subst $(SRCDIR),$(BINDIR),$(CXXSRC)))$/;"	m
+CXXSRC	Makefile	/^CXXSRC		:=$/;"	m
+CXXSRC	Makefile	/^CXXSRC      ?=$/;"	m
+DEBUG	Makefile	/^DEBUG		:= 0$/;"	m
+DEBUG	Makefile	/^DEBUG		?= 0$/;"	m
+DEBUG	Makefile	/^DEBUG       ?= 1$/;"	m
+DEBUGFLAGS	Makefile	/^DEBUGFLAGS	?= -g -fsanitize=address -fno-omit-frame-pointer$/;"	m
+EZBUILD	Makefile	/^EZBUILD		:= misc\/deps\/ezbuild$/;"	m
+EZBUILD	Makefile	/^EZBUILD		?= .\/misc\/deps\/ezbuild$/;"	m
+INCDIR	Makefile	/^INCDIR      := $(addprefix -I,$(INCDIR))$/;"	m
+INCDIR	Makefile	/^INCDIR      ?= inc\/$/;"	m
+KILLED_ID=	async.sh	/^KILLED_ID=();$/;"	f
+LIBDIR	Makefile	/^LIBDIR      := $(addprefix -L,$(LIBDIR))$/;"	m
+LIBNAME	Makefile	/^LIBNAME     := $(addprefix -l,$(LIBNAME))$/;"	m
+LIBNAME	Makefile	/^LIBNAME     ?=# foobar$/;"	m
+LIBPATH	Makefile	/^LIBPATH     ?=# .\/..\/..\/lib$/;"	m
+MKFILE_PATH	Makefile	/^MKFILE_PATH ?= $(abspath $(lastword $(MAKEFILE_LIST)))$/;"	m
+NAME	Makefile	/^NAME		:= libft.a$/;"	m
+NAME	Makefile	/^NAME        ?= a.out$/;"	m
+RM	Makefile	/^RM          ?= \/bin\/rm -f$/;"	m
+SRCDIR	Makefile	/^SRCDIR		?= src$/;"	m
+TEST	Makefile	/^TEST        ?= test$/;"	m
+TESTDF	Makefile	/^TESTDF      ?= $(patsubst %.o,%.d,$(TESTOBJ))$/;"	m
+TESTDIR	Makefile	/^TESTDIR		:= misc\/tests$/;"	m
+TESTDIR	Makefile	/^TESTDIR     ?= test$/;"	m
+TESTFLAGS	Makefile	/^TESTFLAGS   := $(TESTFLAGS) $(INCDIR) $(LIBDIR) $(LIBNAME)$/;"	m
+TESTFLAGS	Makefile	/^TESTFLAGS   ?= $(CXXFLAGS)$/;"	m
+TESTOBJ	Makefile	/^TESTOBJ     ?= $(patsubst %.cpp,%.o,$(subst $(TESTDIR),$(BINDIR)\/$(TESTDIR),$(TESTSRC)))$/;"	m
+TESTSRC	Makefile	/^TESTSRC		:=.\/misc\/tests\/utils\/vmfill.cpp\\$/;"	m
+TESTSRC	Makefile	/^TESTSRC     ?=$/;"	m
+TYPE	Makefile	/^TYPE		:= static$/;"	m
+TYPE	Makefile	/^TYPE        ?= executable$/;"	m
+all	Makefile	/^all:                        $(NAME)$/;"	t
+async	async.sh	/^function async() {$/;"	f
+asyncWatchFolders	async_watcher.sh	/^function asyncWatchFolders()$/;"	f
+await	async.sh	/^function await() {$/;"	f
+awaitAll	async.sh	/^function awaitAll() {$/;"	f
+clean	Makefile	/^clean:$/;"	t
+fclean	Makefile	/^fclean:$/;"	t
+killAll	async.sh	/^function killAll() {$/;"	f
+killJob	async.sh	/^function killJob() {$/;"	f
+make	Makefile	/^make:$/;"	t
+norme	Makefile	/^norme:$/;"	t
+re	Makefile	/^re:$/;"	t
+release	Makefile	/^release:$/;"	t
+release	release.sh	/^function release()$/;"	f
+test	Makefile	/^test:						$(COBJ) $(CXXOBJ) $(TESTOBJ)$/;"	t
+update	Makefile	/^update:$/;"	t
+update	update.sh	/^function update()$/;"	f
+watch-compile	Makefile	/^watch-compile:$/;"	t
+watch-test	Makefile	/^watch-test:$/;"	t
+watchFolders	watcher.sh	/^function watchFolders()$/;"	f

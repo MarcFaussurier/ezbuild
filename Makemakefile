@@ -36,16 +36,21 @@ do
 		echo "${j}" >> ${TMPMAKE}
 	fi
 done
-cat ${TMPMAKE}
-echo "Welcome in Makemakefile!"
-echo "Temporary makefile will be saved at: ${TMPMAKE}"
-echo "Final makefile will be saved at: ${FINALMAKE}"
-read -r -p "Do you want to replace temporary makefile with the final one? [y/N] " response
-case "${response}" in
-	[yY][eE][sS]|[yY])
-		mv ${FINALMAKE} ${FINALMAKE}.bak
-		cp ${TMPMAKE} ${FINALMAKE}
+if [ "$1" != "-y" ]; then
+	cat ${TMPMAKE}
+	echo "Welcome in Makemakefile!"
+	echo "Temporary makefile will be saved at: ${TMPMAKE}"
+	echo "Final makefile will be saved at: ${FINALMAKE}"
+	read -r -p "Do you want to replace temporary makefile with the final one? [y/N] " response
+	case "${response}" in
+		[yY][eE][sS]|[yY])
+			mv ${FINALMAKE} ${FINALMAKE}.bak
+			cp ${TMPMAKE} ${FINALMAKE}
+			;;
+		*)
 		;;
-	*)
-		;;
-esac
+	esac
+else
+	mv ${FINALMAKE} ${FINALMAKE}.bak
+	cp ${TMPMAKE} ${FINALMAKE}
+fi
