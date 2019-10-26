@@ -12,6 +12,8 @@ DONESWITCH=0
 CSRC=$(echo "$(find "./src" -iname "*.c")" | sed 's/\.c/.c\\/g')
 CXXSRC=$(echo "$(find "./src" -iname "*.cpp")" | sed 's/\.cpp/.cpp\\/g')
 TESTSRC=$(echo "$(find "./misc/tests" -iname "*.cpp")" | sed 's/\.cpp/.cpp\\/g')
+BONUSSRC=$(echo "$(find "./src_bonus" -iname "*.c")" | sed 's/\.c/.c\\/g')
+
 echo "$SRC"
 for j in $(echo "${MAKEFILE}" | cat)
 do
@@ -29,6 +31,7 @@ do
 			echo "CSRC			:=${CSRC%?}" >> ${TMPMAKE}
 			echo "CXXSRC		:=${CXXSRC%?}" >> ${TMPMAKE}
 			echo "TESTSRC		:=${TESTSRC%?}" >> ${TMPMAKE}
+			echo "BONUSSRC		:=${BONUSSRC%?}" >> ${TMPMAKE}
 			DONESWITCH=1
 			fi;
 		fi

@@ -16,7 +16,7 @@ CC	Makefile	/^CC          ?= gcc$/;"	m
 CDF	Makefile	/^CDF         ?= $(patsubst %.o,%.d,$(COBJ))$/;"	m
 CFLAGS	Makefile	/^CFLAGS      := $(CFLAGS)	$(INCDIR) $(LIBDIR) $(LIBNAME)$/;"	m
 COBJ	Makefile	/^COBJ        ?= $(patsubst %.c,%.o,$(subst $(SRCDIR),$(BINDIR),$(CSRC)))$/;"	m
-CSRC	Makefile	/^CSRC			:=.\/src\/ft_string.c$/;"	m
+CSRC	Makefile	/^CSRC			:=.\/src\/ft_string\/ft_strnstr.c\\$/;"	m
 CSRC	Makefile	/^CSRC        ?=$/;"	m
 CURRENT_DIR	Makefile	/^CURRENT_DIR ?= $(patsubst %\/,%,$(dir $(MKFILE_PATH)))$/;"	m
 CXX	Makefile	/^CXX         ?= g++$/;"	m
@@ -52,7 +52,7 @@ TESTDIR	Makefile	/^TESTDIR     ?= test$/;"	m
 TESTFLAGS	Makefile	/^TESTFLAGS   := $(TESTFLAGS) $(INCDIR) $(LIBDIR) $(LIBNAME)$/;"	m
 TESTFLAGS	Makefile	/^TESTFLAGS   ?= $(CXXFLAGS)$/;"	m
 TESTOBJ	Makefile	/^TESTOBJ     ?= $(patsubst %.cpp,%.o,$(subst $(TESTDIR),$(BINDIR)\/$(TESTDIR),$(TESTSRC)))$/;"	m
-TESTSRC	Makefile	/^TESTSRC		:=.\/misc\/tests\/utils\/vmfill.cpp\\$/;"	m
+TESTSRC	Makefile	/^TESTSRC		:=.\/misc\/tests\/ft_string\/strcpy.cpp\\$/;"	m
 TESTSRC	Makefile	/^TESTSRC     ?=$/;"	m
 TYPE	Makefile	/^TYPE		:= static$/;"	m
 TYPE	Makefile	/^TYPE        ?= executable$/;"	m
@@ -70,9 +70,11 @@ norme	Makefile	/^norme:$/;"	t
 re	Makefile	/^re:$/;"	t
 release	Makefile	/^release:$/;"	t
 release	release.sh	/^function release()$/;"	f
+run	Makefile	/^run:$/;"	t
 test	Makefile	/^test:						$(COBJ) $(CXXOBJ) $(TESTOBJ)$/;"	t
 update	Makefile	/^update:$/;"	t
 update	update.sh	/^function update()$/;"	f
-watch-compile	Makefile	/^watch-compile:$/;"	t
+watch	Makefile	/^watch:$/;"	t
+watch-run	Makefile	/^watch-run:$/;"	t
 watch-test	Makefile	/^watch-test:$/;"	t
 watchFolders	watcher.sh	/^function watchFolders()$/;"	f
