@@ -2,58 +2,69 @@
 BASEDIR=$(dirname "$0")
 cd "${BASEDIR}/../../../"
 TMPMAKE=./misc/deps/ezbuild/Makefile
-FINALMAKE=./Makefile
-MAKEFILE=$(cat ${FINALMAKE})
-IFS=$'\n'
-GENERATEDSWITCH=0
-rm -f ${TMPMAKE}
-touch ${TMPMAKE}
-DONESWITCH=0
-CSRC=$(echo "$(find "./src" -iname "*.c")" | sed 's/\.c/.c\\/g')
-CXXSRC=$(echo "$(find "./src" -iname "*.cpp")" | sed 's/\.cpp/.cpp\\/g')
-TESTSRC=$(echo "$(find "./misc/tests" -iname "*.cpp")" | sed 's/\.cpp/.cpp\\/g')
-BONUSSRC=$(echo "$(find "./src_bonus" -iname "*.c")" | sed 's/\.c/.c\\/g')
-
-echo "$SRC"
-for j in $(echo "${MAKEFILE}" | cat)
-do
-	if [ "$j" == "# ==================== GENERATED SECTION ======================================" ]; then
-		GENERATEDSWITCH=1
-		echo "$j" >> $TMPMAKE
-	elif [ "$j" == "# =============== PROJECT CONFIGURATION SECTION ===============================" ]; then
-		echo "$j" >> $TMPMAKE
-		GENERATEDSWITCH=0
-	elif [ "${GENERATEDSWITCH}" == "1" ]; then
-		if [ "${j:0:7}" == "# =====" ]; then
-			echo "$j" >> ${TMPMAKE}
+# Bourne
+lockdir=./misc/deps/makefile.lock
+if mkdir "${lockdir}"
+then    # directory did not exist, but was created successfully
+    echo >&2 "successfully acquired lock: $lockdir"
+	FINALMAKE=./Makefile
+	MAKEFILE=$(cat ${FINALMAKE})
+	IFS=$'\n'
+	GENERATEDSWITCH=0
+	rm -f ${TMPMAKE}
+	touch ${TMPMAKE}
+	DONESWITCH=0
+	CSRC=$(echo "$(find "./src" -iname "*.c")" | sed 's/\.c/.c\\/g')
+	CXXSRC=$(echo "$(find "./src" -iname "*.cpp")" | sed 's/\.cpp/.cpp\\/g')
+	TESTSRC=$(echo "$(find "./misc/tests" -iname "*.cpp")" | sed 's/\.cpp/.cpp\\/g')
+	BONUSSRC=$(echo "$(find "./src_bonus" -iname "*.c")" | sed 's/\.c/.c\\/g')
+	echo "$SRC"
+	for j in $(echo "${MAKEFILE}" | cat)
+	do
+		if [ "$j" == "# ==================== GENERATED SECTION ======================================" ]; then
+			GENERATEDSWITCH=1
+			echo "$j" >> $TMPMAKE
+		elif [ "$j" == "# =============== PROJECT CONFIGURATION SECTION ===============================" ]; then
+			echo "$j" >> $TMPMAKE
+			GENERATEDSWITCH=0
+		elif [ "${GENERATEDSWITCH}" == "1" ]; then
+			if [ "${j:0:7}" == "# =====" ]; then
+				echo "$j" >> ${TMPMAKE}
+			else
+				if [ "${DONESWITCH}" == "0" ]; then
+					echo "CSRC			:=${CSRC%?}" >> ${TMPMAKE}
+					echo "CXXSRC		:=${CXXSRC%?}" >> ${TMPMAKE}
+					echo "TESTSRC		:=${TESTSRC%?}" >> ${TMPMAKE}
+					echo "BONUSSRC		:=${BONUSSRC%?}" >> ${TMPMAKE}
+					DONESWITCH=1
+				fi	;
+			fi
 		else
-			if [ "${DONESWITCH}" == "0" ]; then
-			echo "CSRC			:=${CSRC%?}" >> ${TMPMAKE}
-			echo "CXXSRC		:=${CXXSRC%?}" >> ${TMPMAKE}
-			echo "TESTSRC		:=${TESTSRC%?}" >> ${TMPMAKE}
-			echo "BONUSSRC		:=${BONUSSRC%?}" >> ${TMPMAKE}
-			DONESWITCH=1
-			fi;
+			echo "${j}" >> ${TMPMAKE}
 		fi
-	else
-		echo "${j}" >> ${TMPMAKE}
-	fi
-done
-if [ "$1" != "-y" ]; then
-	cat ${TMPMAKE}
-	echo "Welcome in Makemakefile!"
-	echo "Temporary makefile will be saved at: ${TMPMAKE}"
-	echo "Final makefile will be saved at: ${FINALMAKE}"
-	read -r -p "Do you want to replace temporary makefile with the final one? [y/N] " response
-	case "${response}" in
+	done
+	if [ "$1" != "-y" ]; then
+		cat ${TMPMAKE}
+		echo "Welcome in Makemakefile!"
+		echo "Temporary makefile will be saved at: ${TMPMAKE}"
+		echo "Final makefile will be saved at: ${FINALMAKE}"
+		read -r -p "Do you want to replace temporary makefile with the final one? [y/N] " response
+		case "${response}" in
 		[yY][eE][sS]|[yY])
 			mv ${FINALMAKE} ${FINALMAKE}.bak
 			cp ${TMPMAKE} ${FINALMAKE}
 			;;
 		*)
 		;;
-	esac
-else
-	mv ${FINALMAKE} ${FINALMAKE}.bak
-	cp ${TMPMAKE} ${FINALMAKE}
+		esac
+	else
+		mv ${FINALMAKE} ${FINALMAKE}.bak
+		cp ${TMPMAKE} ${FINALMAKE}
+	fi
+	rmdir "${lockdir}"
+# continue script
+else    # failed to create the directory, presumably because it already exists
+  echo >&2 "cannot acquire lock, giving up on $lockdir"
+  exit 0
 fi
+

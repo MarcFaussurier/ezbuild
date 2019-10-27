@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 function asyncWatchFolders()
 {
-
-
    chsum1=""
     while [[ true ]]
     do

@@ -28,7 +28,7 @@ function await() {
 function awaitAll() {
     FAIL=0;
     RETURN=0;
-    for job in `jobs -p`; do
+    for job in `ps -ax | grep " " | awk '{$1=$1};1' | cut -d' ' -f1`; do
         if [[ ! " ${KILLED_ID[@]} " =~ " ${job} " ]]; then
             echo "Now awaiting ${job} ...";
             wait ${job} || let "FAIL+=1";
@@ -41,29 +41,8 @@ function awaitAll() {
 
 # Kill a job using its id
 function killJob() {
-    RETURN=0;
-    if ps -p $1 > /dev/null; then
-        FAIL=0;
+    if [ -d "/proc/$pid" ]; then
         printf "Now killing ${1} ... \n";
-        kill $1 || let "FAIL+=1";
-        KILLED_ID=("${1} ${KILLED_ID}");
-        if [[ ! "${FAIL}" == "0" ]]; then
-            RETURN=1;
-        fi;
-    fi;
-    #else the process to kill shutdown already
-}
-
-# Kill all the jobs
-function killAll() {
-    RETURN=0;
-    N_FAIL=0
-    for job in `jobs -p`; do
-        killJob job;
-        let "N_FAIL+=RETURN";
-        KILLED_ID=("${job} ${KILLED_ID}");
-    done;
-    if [[ ! "$N_FAIL" == "0" ]]; then
-        RETURN=1;
+        kill ${1}
     fi;
 }

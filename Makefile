@@ -120,8 +120,6 @@ BONUSSRC		:=./src_bonus/ft_list/ft_lstadd_back.c\
 # =============================================================================
 # full generated binary name (with extension, relative to Makefile dir)
 NAME		:= libft.a
-# valid output types are : executable static shared
-TYPE		:= share
 # will pass debug flags
 DEBUG		:= 0
 # where cpp tests dirs are
@@ -139,9 +137,7 @@ BINDIR      ?= bin
 TESTDIR     ?= test
 NAME        ?= a.out
 TEST        ?= test
-TYPE        ?= executable
 DEBUG       ?= 1
-CXXENABLED  ?= 0
 EZBUILD		?= ./misc/deps/ezbuild
 # default toolchain
 RM          ?= /bin/rm -f
@@ -161,9 +157,6 @@ CSRC        ?=
 COBJ        ?= $(patsubst %.c,%.o,$(subst $(SRCDIR),$(BINDIR),$(CSRC)))
 BONUSOBJ    ?= $(patsubst %.c,%.o,$(subst $(BONUSDIR),$(BINDIR),$(BONUSSRC)))
 CDF         ?= $(patsubst %.o,%.d,$(COBJ))
-CXXSRC      ?=
-CXXOBJ      ?= $(patsubst %.cpp,%.o,$(subst $(SRCDIR),$(BINDIR),$(CXXSRC)))
-CXXDF       ?= $(patsubst %.o,%.d,$(CXXOBJ))
 TESTSRC     ?=
 TESTOBJ     ?= $(patsubst %.cpp,%.o,$(subst $(TESTDIR),$(BINDIR)/$(TESTDIR),$(TESTSRC)))
 TESTDF      ?= $(patsubst %.o,%.d,$(TESTOBJ))
@@ -191,18 +184,18 @@ endif
 all:                        $(NAME)
 make:
 		$(EZBUILD)/Makemakefile -y
+f:
+		cd misc/deps/libft-unit-test && make f
 update:
 		source $(EZBUILD)/update.sh && update
-run:
-		./$(NAME)
 watch:
-		source $(EZBUILD)/watcher.sh  && watchFolders "make make && make" "$(SRCDIR) $(TESTDIR)"
+		source $(EZBUILD)/watcher.sh  && watchFolders "make make all" "$(SRCDIR) $(TESTDIR)"
 watch-test:
-		source $(EZBUILD)/watcher.sh && watchFolders "make make && make test" "$(SRCDIR) $(TESTDIR)"
-watch-run:
-		source $(EZBUILD)/async.sh && source $(EZBUILD)/async_watcher.sh && asyncWatchFolders "make make && make run" "$(SRCDIR)" "$(TESTDIR)"
+		source $(EZBUILD)/async.sh && source $(EZBUILD)/async_watcher.sh && asyncWatchFolders "make make test" "$(SRCDIR) $(TESTDIR)"
+watch-f:
+		source $(EZBUILD)/async.sh && source $(EZBUILD)/async_watcher.sh && asyncWatchFolders "make make f" "$(SRCDIR) $(TESTDIR)"
 test:						$(COBJ) $(CXXOBJ) $(TESTOBJ)
-		$(CXX) -o $(BINDIR)/$(TESTDIR)/$(TEST) $(COBJ) $(CXXOBJ) $(TESTOBJ) $(CXXOBJ)
+		$(CXX) $(CXXFLAGS) -o $(BINDIR)/$(TESTDIR)/$(TEST) $(COBJ) $(TESTOBJ)
 		./$(BINDIR)/$(TESTDIR)/$(TEST)
 clean:
 		$(RM) $(COBJ) $(CXXOBJ) $(TESTOBJ) $(CDF) $(CXXDF) $(TESTDF)
@@ -220,36 +213,9 @@ $(BINDIR)/%.o:				$(BONUSDIR)/%.c
 		$(CC) $(CFLAGS)			-c		$< -o					$@
 $(BINDIR)/%.o:				$(SRCDIR)/%.c
 		$(CC) $(CFLAGS)			-c		$< -o					$@
-$(BINDIR)/%.o:				$(SRCDIR)/%.cpp
-ifeq ($(CXXENABLED),1)
-		$(CXX) $(CXXFLAGS)		-c		$< -o					$@
-endif
 $(BINDIR)/$(TESTDIR)/%.o:	$(TESTDIR)/%.cpp
 		$(CXX) $(CXXFLAGS)		-c		$< -o					$@
-$(NAME):                                        $(COBJ) $(CXXOBJ)
-ifeq ($(TYPE),static)
-ifeq ($(CXXENABLED),0)
+$(NAME):                                        $(COBJ)
 		$(AR) $(ARFLAGS) $(NAME) $(COBJ)
-endif
-ifeq ($(CXXENABLED),1)
-		$(AR) $(ARFLAGS) $(NAME) $(COBJ) $(CXXOBJ)
-endif
-endif
-ifeq ($(TYPE),shared)
-ifeq ($(CXXENABLED),0)
-		$(CC) $(CFLAGS) -shared $(COBJ) -o $(NAME)
-endif
-ifeq ($(CXXENABLED),1)
-		$(CXX) $(CXXFLAGS) -shared $(COBJ) $(CXXOBJ) -o $(NAME)
-endif
-endif
-ifeq ($(TYPE),executable)
-ifeq ($(CXXENABLED),0)
-		$(CC) $(CFLAGS) $(COBJ) -o $(NAME)
-endif
-ifeq ($(CXXENABLED),1)
-		$(CXX) $(CXXFLAGS) $(COBJ) $(CXXOBJ) -o $(NAME)
-endif
-endif
 .PHONY:
 		all fclean clean re test

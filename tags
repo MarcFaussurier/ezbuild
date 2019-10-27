@@ -6,12 +6,15 @@
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	0.0.0	//
 $(BINDIR)/$(TESTDIR)/%.o	Makefile	/^$(BINDIR)\/$(TESTDIR)\/%.o:	$(TESTDIR)\/%.cpp$/;"	t
+$(BINDIR)/%.o	Makefile	/^$(BINDIR)\/%.o:				$(BONUSDIR)\/%.c$/;"	t
 $(BINDIR)/%.o	Makefile	/^$(BINDIR)\/%.o:				$(SRCDIR)\/%.c$/;"	t
-$(BINDIR)/%.o	Makefile	/^$(BINDIR)\/%.o:				$(SRCDIR)\/%.cpp$/;"	t
-$(NAME)	Makefile	/^$(NAME):                                        $(COBJ) $(CXXOBJ)$/;"	t
+$(NAME)	Makefile	/^$(NAME):                                        $(COBJ)$/;"	t
 AR	Makefile	/^AR			?= ar$/;"	m
 ARFLAGS	Makefile	/^ARFLAGS		?= -rcs$/;"	m
 BINDIR	Makefile	/^BINDIR      ?= bin$/;"	m
+BONUSDIR	Makefile	/^BONUSDIR	:= src_bonus$/;"	m
+BONUSOBJ	Makefile	/^BONUSOBJ    ?= $(patsubst %.c,%.o,$(subst $(BONUSDIR),$(BINDIR),$(BONUSSRC)))$/;"	m
+BONUSSRC	Makefile	/^BONUSSRC		:=.\/src_bonus\/ft_list\/ft_lstadd_back.c\\$/;"	m
 CC	Makefile	/^CC          ?= gcc$/;"	m
 CDF	Makefile	/^CDF         ?= $(patsubst %.o,%.d,$(COBJ))$/;"	m
 CFLAGS	Makefile	/^CFLAGS      := $(CFLAGS)	$(INCDIR) $(LIBDIR) $(LIBNAME)$/;"	m
@@ -20,13 +23,9 @@ CSRC	Makefile	/^CSRC			:=.\/src\/ft_string\/ft_strnstr.c\\$/;"	m
 CSRC	Makefile	/^CSRC        ?=$/;"	m
 CURRENT_DIR	Makefile	/^CURRENT_DIR ?= $(patsubst %\/,%,$(dir $(MKFILE_PATH)))$/;"	m
 CXX	Makefile	/^CXX         ?= g++$/;"	m
-CXXDF	Makefile	/^CXXDF       ?= $(patsubst %.o,%.d,$(CXXOBJ))$/;"	m
-CXXENABLED	Makefile	/^CXXENABLED  ?= 0$/;"	m
 CXXFLAGS	Makefile	/^CXXFLAGS    := $(CXXFLAGS)	$(INCDIR) $(LIBDIR) $(LIBNAME)$/;"	m
 CXXFLAGS	Makefile	/^CXXFLAGS    ?= -std=c++11 $(CFLAGS)$/;"	m
-CXXOBJ	Makefile	/^CXXOBJ      ?= $(patsubst %.cpp,%.o,$(subst $(SRCDIR),$(BINDIR),$(CXXSRC)))$/;"	m
 CXXSRC	Makefile	/^CXXSRC		:=$/;"	m
-CXXSRC	Makefile	/^CXXSRC      ?=$/;"	m
 DEBUG	Makefile	/^DEBUG		:= 0$/;"	m
 DEBUG	Makefile	/^DEBUG		?= 0$/;"	m
 DEBUG	Makefile	/^DEBUG       ?= 1$/;"	m
@@ -54,27 +53,25 @@ TESTFLAGS	Makefile	/^TESTFLAGS   ?= $(CXXFLAGS)$/;"	m
 TESTOBJ	Makefile	/^TESTOBJ     ?= $(patsubst %.cpp,%.o,$(subst $(TESTDIR),$(BINDIR)\/$(TESTDIR),$(TESTSRC)))$/;"	m
 TESTSRC	Makefile	/^TESTSRC		:=.\/misc\/tests\/ft_string\/strcpy.cpp\\$/;"	m
 TESTSRC	Makefile	/^TESTSRC     ?=$/;"	m
-TYPE	Makefile	/^TYPE		:= static$/;"	m
-TYPE	Makefile	/^TYPE        ?= executable$/;"	m
 all	Makefile	/^all:                        $(NAME)$/;"	t
 async	async.sh	/^function async() {$/;"	f
 asyncWatchFolders	async_watcher.sh	/^function asyncWatchFolders()$/;"	f
 await	async.sh	/^function await() {$/;"	f
 awaitAll	async.sh	/^function awaitAll() {$/;"	f
+bonus	Makefile	/^bonus:	$(COBJ) $(BONUSOBJ)$/;"	t
 clean	Makefile	/^clean:$/;"	t
+f	Makefile	/^f:$/;"	t
 fclean	Makefile	/^fclean:$/;"	t
-killAll	async.sh	/^function killAll() {$/;"	f
 killJob	async.sh	/^function killJob() {$/;"	f
 make	Makefile	/^make:$/;"	t
 norme	Makefile	/^norme:$/;"	t
 re	Makefile	/^re:$/;"	t
 release	Makefile	/^release:$/;"	t
 release	release.sh	/^function release()$/;"	f
-run	Makefile	/^run:$/;"	t
 test	Makefile	/^test:						$(COBJ) $(CXXOBJ) $(TESTOBJ)$/;"	t
 update	Makefile	/^update:$/;"	t
 update	update.sh	/^function update()$/;"	f
 watch	Makefile	/^watch:$/;"	t
-watch-run	Makefile	/^watch-run:$/;"	t
+watch-f	Makefile	/^watch-f:$/;"	t
 watch-test	Makefile	/^watch-test:$/;"	t
 watchFolders	watcher.sh	/^function watchFolders()$/;"	f
